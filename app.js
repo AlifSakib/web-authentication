@@ -3,6 +3,17 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const dbURL = process.env.MONGO_URL;
+
+mongoose
+  .connect(dbURL)
+  .then(() => {
+    console.log("DataBase Connected");
+  })
+  .catch((error) => {
+    console.log(error.message);
+    process.exit(1);
+  });
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -33,7 +44,7 @@ app.use((req, res, next) => {
 //Handling Server Error
 app.use((err, req, res, next) => {
   res.status(500).json({
-    message: "Something Broken",
+    message: "Server Broken",
   });
 });
 
